@@ -42,9 +42,14 @@ public class loginPage extends Application {
                 // Check if the username contains "@doctor"
                 if (username.toLowerCase().contains("@doctor")) {
                     // Open doctor's UI display
-                    new recep().display(); // Assuming DoctorUI has a display method
-                } else {
-                    errorLabel.setText("Access denied. Only doctors allowed.");
+                    new doctorPage().display(); // Assuming DoctorUI has a display method
+                } else if (username.toLowerCase().contains("@nurse")) {
+                	new nursePage().display();
+                } else if (username.toLowerCase().contains("@patient")) {
+                	new patientPage().display();
+                }
+                  else {
+                    errorLabel.setText("Access denied.");
                 }
             } else {
                 errorLabel.setText("Invalid credentials. Please check your username and password.");
@@ -64,7 +69,16 @@ public class loginPage extends Application {
     // Method to validate login credentials
     private boolean isValidLogin(String username, String password) {
         // Check if username contains "@doctor" and password contains exactly three 'z' characters
-        return username.toLowerCase().contains("@doctor") && countZs(password) == 3;
+    	if (username.toLowerCase().contains("@doctor") && countZs(password) == 3) {
+    		return true;
+    	} else if (username.toLowerCase().contains("@nurse") && countZs(password) == 3) {
+    		return true;
+    	} else if (username.toLowerCase().contains("@patient") && countZs(password) == 3) {
+    		return true;
+    	} else {
+    		return false;
+    	}
+        
     }
 
     // Helper method to count occurrences of 'z' in a string
