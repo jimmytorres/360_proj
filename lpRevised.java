@@ -2,6 +2,10 @@ package com.example;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
+import javax.swing.text.html.ImageView;
+
+import org.w3c.dom.Text;
+
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -11,14 +15,11 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
-
 
 public class lpRevised extends Application {
     public static void main(String[] args) throws Exception
@@ -28,7 +29,6 @@ public class lpRevised extends Application {
 
     public static final int WIDTH = 1500, HEIGHT = 800;      //Size of GUI
     
-
     public void start(@SuppressWarnings("exports") Stage stage) throws FileNotFoundException
     {
         BorderPane mainPane = new BorderPane();  // Create the BorderPane directly
@@ -36,7 +36,7 @@ public class lpRevised extends Application {
         mainPane.setStyle("-fx-background-color: #DFEDD6");
 
         //Import Image
-        FileInputStream inputStream = new FileInputStream("C:\\Users\\Jeshad\\Downloads\\HT_Logo.jpg");
+        FileInputStream inputStream = new FileInputStream("C:\\Users\\Jeshad\\Downloads\\HT_Logo.jpg");     //Edit File path of logo
         Image image = new Image(inputStream);
         ImageView imageView = new ImageView(image);
 
@@ -78,7 +78,6 @@ public class lpRevised extends Application {
         centerPane.getChildren().add(pane);
         mainPane.setCenter(centerPane);
 
-        
         Scene scene = new Scene(mainPane, WIDTH, HEIGHT);
         stage.setTitle("Healthtech Solutions - Login");
         stage.setScene(scene);
@@ -130,7 +129,6 @@ public class lpRevised extends Application {
     	}
         
     }
-
     // Helper method to count occurrences of 'z' in a string
     private int countZs(String str) {
         int count = 0;
@@ -141,5 +139,4 @@ public class lpRevised extends Application {
         }
         return count;
     }
-
 }
