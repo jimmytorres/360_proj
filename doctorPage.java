@@ -1,7 +1,15 @@
 package com.example;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
+import javax.swing.text.html.ImageView;
+
+import org.w3c.dom.Text;
 
 import javafx.application.Application;
 import javafx.geometry.Insets;
@@ -9,10 +17,15 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
+import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.BorderStroke;
+import javafx.scene.layout.BorderStrokeStyle;
+import javafx.scene.layout.BorderWidths;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
@@ -20,24 +33,54 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 
 public class doctorPage extends Application {
+    private Stage stage;
+    private Scene scene1;
+    private Scene scene2;
+    String patientID;
+    String strMed1 = "";
+    String strMed2 = "";
+    String strMed3 = "";
+
+    int clickCount = 0;
+    Label meds = new Label();
+
     public static void main(String[] args) throws Exception
     {
         launch(args);
     }
-
-    public static final int WIDTH = 1500, HEIGHT = 800;      //Size of GUI
     
+    public void start(@SuppressWarnings("exports") Stage primaryStage) throws FileNotFoundException
+    {
+        stage = primaryStage;
+		stage.setTitle("Heart Health Imaging and Recording System");
+
+		//scene1 = createDoctorPage();
+        scene2 = createDocInfoPage();
+
+        stage.setScene(scene2);
+		stage.show();
+    }
 
     @SuppressWarnings("static-access")
-    public void start(@SuppressWarnings("exports") Stage stage) throws FileNotFoundException
+    private Scene createDoctorPage() throws IOException
     {
         BorderPane mainPane = new BorderPane();
         mainPane.setStyle("-fx-background-color: #DFEDD6");
+
+        String strName = Files.readAllLines(Paths.get(patientID + "_PatientInfo.txt")).get(1-1);
+        String strGender = Files.readAllLines(Paths.get(patientID + "_PatientInfo.txt")).get(2-1);
+        String strDOB = Files.readAllLines(Paths.get(patientID + "_PatientInfo.txt")).get(3-1);
+        String strAge = Files.readAllLines(Paths.get(patientID + "_PatientInfo.txt")).get(4-1);
+        String strWeight = Files.readAllLines(Paths.get(patientID + "_PatientInfo.txt")).get(5-1);
+        String strHeight = Files.readAllLines(Paths.get(patientID + "_PatientInfo.txt")).get(6-1);
+        String strAddress = Files.readAllLines(Paths.get(patientID + "_PatientInfo.txt")).get(7-1);
+        String strPhoneNumber = Files.readAllLines(Paths.get(patientID + "_PatientInfo.txt")).get(8-1);
+        String strEmail = Files.readAllLines(Paths.get(patientID + "_PatientInfo.txt")).get(9-1);
+        String strInsurance = Files.readAllLines(Paths.get(patientID + "_PatientInfo.txt")).get(10-1);
 
         //Import Image
         FileInputStream inputStream = new FileInputStream("C:\\Users\\Jeshad\\Downloads\\HT_Logo.jpg");          //Change File path
@@ -68,7 +111,7 @@ public class doctorPage extends Application {
         //VBox
         VBox vbox = new VBox();
         vbox.setAlignment(Pos.TOP_LEFT);
-        vbox.getChildren().addAll(welcome, imageView, patients, wrapper);
+        vbox.getChildren().addAll(welcome, imageView, wrapper);
         vbox.setSpacing(40);
         vbox.setPadding(new Insets(40, 0, 10, 20));
 
@@ -86,7 +129,7 @@ public class doctorPage extends Application {
         overviewTitle.setStyle("-fx-alignment: center;");
 
 
-        Text leftTest = new Text ("Name: John Doe\nGender: Male\nDOB: 01/01/2000\nAge: 24\nWeight 150 lb\nHeight: 5' 10'\n\nAddress: 123 Main St. Tempe, AZ 85218\nPhone #: (123) - 456 - 7890\nEmail: johndoe@gmail.com\nCurrent Insurance: United Health");
+        Text leftTest = new Text ("Name: " + strName + "\nGender: " + strGender + "\nDOB: " + strDOB + "\nAge: " + strAge + "\nWeight " + strWeight + "\nHeight: " + strHeight + "\n\nAddress: " + strAddress + "\nPhone #: " + strPhoneNumber + "\nEmail: " + strEmail + "\nCurrent Insurance: " + strInsurance);
         leftTest.setFont(new Font(20));
 
         GridPane textBox = new GridPane();
@@ -119,7 +162,6 @@ public class doctorPage extends Application {
         immunization.setFont(new Font(17));
         immunization.setStyle("-fx-font-weight: 700;");
 
-
         historyGridPane.setHgap(5);
         historyGridPane.setVgap(10);
         historyGridPane.add(historyInfo, 3 , 5);
@@ -128,7 +170,6 @@ public class doctorPage extends Application {
         StackPane historyStack = new StackPane();
         historyStack.setAlignment(historyTitle, Pos.TOP_CENTER);
         historyStack.getChildren().addAll(history, historyTitle, historyGridPane);
-
 
         VBox overview = new VBox();
         overview.setAlignment(Pos.TOP_CENTER);
@@ -152,7 +193,6 @@ public class doctorPage extends Application {
         currentMed.setStyle("-fx-font-weight: 700;");
         currentMed.setFont(new Font(17));
 
-        Text meds = new Text("\t-Medication 1\n\t-Medication 2\n\t-Medication 3");
         meds.setFont(new Font(17));
 
         GridPane medicationGridPane = new GridPane();
@@ -177,7 +217,6 @@ public class doctorPage extends Application {
         previousMedsTitle.setFont(new Font(25));
         previousMedsTitle.setStyle("-fx-font-weight: 600;");
         previousMedsTitle.setStyle("-fx-alignment: center;");
-
 
         Text listOfMeds = new Text ("    -Medication 1 \t\t\t\t\t01/01/2020\n    -Medication 2 \t\t\t\t\t01/01/2020\n    -Medication 3 \t\t\t\t\t01/01/2020");
         listOfMeds.setFont(new Font(20));
@@ -222,6 +261,27 @@ public class doctorPage extends Application {
         addMedVbox.getChildren().addAll(addMedGrid, confirmButton);
         addMedVbox.setSpacing(30);
 
+        confirmButton.setOnAction(e -> {
+            if (clickCount == 0)
+            {
+                clickCount++;
+                strMed1 = medicationNameField.getText();
+                meds.setText("\t- " + strMed1 + "\n\t- " + strMed3 + "\n\t- " + strMed3);
+            }
+            else if (clickCount == 1)
+            {
+                strMed2 = medicationNameField.getText();
+                meds.setText("\t- " + strMed1 + "\n\t- " + strMed2 + "\n\t- " + strMed3);
+                clickCount++;
+            }
+            else
+            {
+                strMed3 = medicationNameField.getText();
+                meds.setText("\t- " + strMed1 + "\n\t- " + strMed2 + "\n\t- " + strMed3);
+                clickCount++;
+            }
+        });
+
         StackPane addMedsStack = new StackPane();
         addMedsStack.setAlignment(addMedsTitle, Pos.TOP_CENTER);
         addMedsStack.getChildren().addAll(addMedsRectangle, addMedsTitle, addMedVbox);
@@ -241,11 +301,71 @@ public class doctorPage extends Application {
         HBox centerPane = new HBox();
         centerPane.getChildren().add(pane);
         mainPane.setCenter(centerPane);
-
-        Scene scene = new Scene(mainPane, WIDTH, HEIGHT);
         stage.setTitle("Healthtech Solutions - Doctor");
-        stage.setScene(scene);
-        stage.show();
+        scene1 = new Scene(mainPane, 1500, 800);
+        
+        return scene1;
+    }
+    private Scene createDocInfoPage()
+    {
+        BorderPane mainPane = new BorderPane();
+
+        mainPane.setStyle("-fx-background-color: #DFEDD6");
+        Text topText = new Text("Please enter the patient's ID");
+        topText.setFont(new Font("Times New Roman", 30));
+        topText.setStyle("-fx-font-weight: 600;");
+        mainPane.setTop(topText);
+        BorderPane.setAlignment(topText, Pos.CENTER);
+        mainPane.setPadding(new Insets(20, 0, 0, 0));
+
+        Button btnPatientView = new Button("Submit");
+        btnPatientView.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(1))));
+        btnPatientView.setPrefSize(250, 100);
+        btnPatientView.setFont(Font.font("Times New Roman", 30));
+
+        TextField tfPatientID = new TextField();
+        tfPatientID.setMaxWidth(350);
+        tfPatientID.setMinHeight(60);
+        tfPatientID.setFont(new Font(25));
+
+        btnPatientView.setOnAction(e -> {
+			String strIDinput = tfPatientID.getText();
+            patientID = strIDinput;
+			File file = new File(strIDinput + "_PatientInfo.txt");
+			if (file.exists())
+            {
+				try {
+                    scene1 = createDoctorPage();
+                } catch (FileNotFoundException e1) {
+                    e1.printStackTrace();
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+				switchScenes(scene1);
+			}
+			else
+			{
+				topText.setText("Invalid ID. Please try again later.");
+			}
+		});
+        
+        VBox vboxMain = new VBox();
+        vboxMain.setAlignment(Pos.CENTER);
+        vboxMain.getChildren().addAll(tfPatientID, btnPatientView);
+        vboxMain.setSpacing(70);
+        
+        //Adds the panes together
+        BorderPane pane = new BorderPane();
+        HBox centerPane = new HBox();
+        centerPane.getChildren().add(pane);
+        mainPane.setCenter(vboxMain);
+
+		scene2 = new Scene(mainPane, 1500, 800);
+		return scene2;
     }
 
+    @SuppressWarnings("exports")
+	public void switchScenes(Scene scene) {
+		stage.setScene(scene);
+	}
 }
