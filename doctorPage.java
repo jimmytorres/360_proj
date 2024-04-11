@@ -1,4 +1,4 @@
-package com.example;
+package AutomationSystem;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -6,11 +6,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-
-import javax.swing.text.html.ImageView;
-
-import org.w3c.dom.Text;
-
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -20,6 +15,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView; 
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.BorderStroke;
@@ -33,7 +29,9 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
+
 
 
 public class doctorPage extends Application {
@@ -83,7 +81,7 @@ public class doctorPage extends Application {
         String strInsurance = Files.readAllLines(Paths.get(patientID + "_PatientInfo.txt")).get(10-1);
 
         //Import Image
-        FileInputStream inputStream = new FileInputStream("C:\\Users\\Jeshad\\Downloads\\HT_Logo.jpg");          //Change File path
+        FileInputStream inputStream = new FileInputStream("/Users/jimmytorres/Downloads/HT_Logo.jpg");          //Change File path
         Image image = new Image(inputStream);
         ImageView imageView = new ImageView(image);
 
