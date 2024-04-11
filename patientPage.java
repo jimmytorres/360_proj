@@ -1,8 +1,8 @@
-package project_prototype;
+package AutomationSystem;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
-
 import javafx.application.Application;
 import javafx.geometry.*;
 import javafx.scene.Scene;
@@ -13,7 +13,7 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
-public class Patient_View extends Application implements InfoUpdateListener {
+public class patientPage extends Application{
 
     private Label usernameLabel;
     private Label patientNameLabel;
@@ -158,7 +158,6 @@ public class Patient_View extends Application implements InfoUpdateListener {
         launch(args);
     }
 
-    @Override
     public void onUpdate(String username, String patientName, String dob) {
         if (username != null && !username.isEmpty()) {
             usernameLabel.setText("Username: " + username + "\n");
